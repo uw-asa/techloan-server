@@ -16,9 +16,14 @@ class EquipmentLocation(ViewSet):
                        kwargs={'pk': pk}, request=request)
 
     def item(self, request, record):
-        record.update({
-            'uri': self.link(request, record['id']),
-        })
+        if request.version == 'v1':
+            record.update({
+                'uri': self.link(request, record['id']),
+            })
+        else:
+            record.update({'_links': {
+                'self': {'href': self.link(request, record['id'])},
+            }})
         return record
 
     def list(self, request, **kwargs):

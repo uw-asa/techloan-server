@@ -14,11 +14,20 @@ class Availability(ViewSet):
         from .equipment_type import EquipmentType
 
         record.update({
-            'equipment_type_uri':
-                EquipmentType.link(request, record['equipment_type_id']),
             'date_available':
                 record['date_available'].strftime('%Y-%m-%d'),
         })
+        if request.version == 'v1':
+            record.update({
+                'equipment_type_uri':
+                    EquipmentType.link(request, record['equipment_type_id']),
+            })
+        else:
+            record.update({'_links': {
+                'type': {'href': EquipmentType.link(
+                    request, record['equipment_type_id'])},
+            }})
+
         return record
 
     def list(self, request, **kwargs):

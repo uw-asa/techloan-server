@@ -20,16 +20,27 @@ class EquipmentType(ViewSet):
         from .equipment_location import EquipmentLocation
         from .customer_type import CustomerType
 
-        record.update({
-            'uri': self.link(request, record['id']),
-            'equipment_class_uri':
-                EquipmentClass.link(request, record['equipment_class_id']),
-            'equipment_location_uri':
-                EquipmentLocation.link(request,
-                                       record['equipment_location_id']),
-            'customer_type_uri':
-                CustomerType.link(request, record['customer_type_id']),
-        })
+        if request.version == 'v1':
+            record.update({
+                'uri': self.link(request, record['id']),
+                'equipment_class_uri':
+                    EquipmentClass.link(request, record['equipment_class_id']),
+                'equipment_location_uri':
+                    EquipmentLocation.link(request,
+                                           record['equipment_location_id']),
+                'customer_type_uri':
+                    CustomerType.link(request, record['customer_type_id']),
+            })
+        else:
+            record.update({'_links': {
+                'self': {'href': self.link(request, record['id'])},
+                'class': {'href': EquipmentClass.link(
+                    request, record['equipment_class_id'])},
+                'location': {'href': EquipmentLocation.link(
+                    request, record['equipment_location_id'])},
+                'customer_type': {'href': CustomerType.link(
+                    request, record['customer_type_id'])},
+            }})
         return record
 
     def list(self, request, **kwargs):

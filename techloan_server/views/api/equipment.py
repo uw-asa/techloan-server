@@ -16,11 +16,18 @@ class Equipment(ViewSet):
     def item(self, request, record):
         from .equipment_type import EquipmentType
 
-        record.update({
-            'uri': self.link(request, record['id']),
-            'equipment_type_uri':
-                EquipmentType.link(request, record['equipment_type_id']),
-        })
+        if request.version == 'v1':
+            record.update({
+                'uri': self.link(request, record['id']),
+                'equipment_type_uri':
+                    EquipmentType.link(request, record['equipment_type_id']),
+            })
+        else:
+            record.update({'_links': {
+                'self': {'href': self.link(request, record['id'])},
+                'type': {'href': EquipmentType.link(
+                    request, record['equipment_type_id'])},
+            }})
         return record
 
     def list(self, request, **kwargs):
