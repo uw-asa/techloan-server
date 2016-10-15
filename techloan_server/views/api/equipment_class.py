@@ -13,6 +13,12 @@ class EquipmentClass(ViewSet):
         return reverse('equipment-class-detail',
                        kwargs={'pk': pk}, request=request)
 
+    def item(self, request, record):
+        record.update({
+            'uri': self.link(request, record['id']),
+        })
+        return record
+
     def list(self, request, **kwargs):
         _stf = STFSQL()
         params = {
@@ -20,15 +26,13 @@ class EquipmentClass(ViewSet):
         }
         params.update(request.GET)
 
-        records = []
+        items = []
 
         for record in _stf.equipment_class(**params):
-            record.update({
-                'uri': self.link(request, record['id']),
-            })
-            records.append(record)
+            item = self.item(request, record)
+            items.append(item)
 
-        return Response(records)
+        return Response(items)
 
     def retrieve(self, request, pk):
         return self.list(request, class_id=pk)

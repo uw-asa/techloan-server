@@ -15,10 +15,26 @@ class EquipmentType(ViewSet):
         return reverse('equipment-type-detail',
                        kwargs={'pk': pk}, request=request)
 
-    def list(self, request, **kwargs):
+    def item(self, request, record):
         from .equipment_class import EquipmentClass
         from .equipment_location import EquipmentLocation
         from .customer_type import CustomerType
+
+        record.update({
+            'uri': self.link(request, record['id']),
+            'equipment_class_uri':
+                EquipmentClass.link(request, record['equipment_class_id']),
+            'equipment_location_uri':
+                EquipmentLocation.link(request,
+                                       record['equipment_location_id']),
+            'customer_type_uri':
+                CustomerType.link(request, record['customer_type_id']),
+        })
+        return record
+
+    def list(self, request, **kwargs):
+        from .equipment_class import EquipmentClass
+        from .availability import Availability
 
         _stf = STFSQL()
         params = {
@@ -38,44 +54,30 @@ class EquipmentType(ViewSet):
         if params['end_date'] < params['start_date']:
             params['end_date'] = params['start_date']
 
-        records = []
+        items = []
 
         for record in _stf.equipment_type(params['type_id'],
                                           params['class_id'],
                                           params['location_id']):
-            record.update({
-                'uri': self.link(request, record['id']),
-                'equipment_class_uri':
-                    EquipmentClass.link(request, record['equipment_class_id']),
-                'equipment_location_uri':
-                    EquipmentLocation.link(request,
-                                           record['equipment_location_id']),
-                'customer_type_uri':
-                    CustomerType.link(request, record['customer_type_id']),
-            })
+            item = self.item(request, record)
             if params['scope'] == 'extended':
                 class_record = list(_stf.equipment_class(
                     record['equipment_class_id']))[0]
-                class_record.update({
-                    'uri': EquipmentClass.link(request, class_record['id']),
-                })
+                class_item = EquipmentClass.item(request, class_record)
 
-                availability_records = []
+                availability_items = []
                 for a_record in _stf.availability(params['start_date'],
                                                   params['end_date'],
                                                   record['id']):
-                    a_record.update({
-                        'date_available':
-                            a_record['date_available'].strftime('%Y-%m-%d'),
-                    })
-                    availability_records.append(a_record)
-                record.update({
-                    'class': class_record,
-                    'availability': availability_records,
+                    availability_item = Availability.item(request, a_record)
+                    availability_items.append(availability_item)
+                item.update({
+                    'class': class_item,
+                    'availability': availability_items,
                 })
-            records.append(record)
+            items.append(item)
 
-        return Response(records)
+        return Response(items)
 
     def retrieve(self, request, pk):
         return self.list(request, type_id=pk)

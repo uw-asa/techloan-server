@@ -10,9 +10,18 @@ logger = logging.getLogger(__name__)
 
 class Availability(ViewSet):
 
-    def list(self, request, **kwargs):
+    def item(self, request, record):
         from .equipment_type import EquipmentType
 
+        record.update({
+            'equipment_type_uri':
+                EquipmentType.link(request, record['equipment_type_id']),
+            'date_available':
+                record['date_available'].strftime('%Y-%m-%d'),
+        })
+        return record
+
+    def list(self, request, **kwargs):
         _stf = STFSQL()
         params = {
             'start_date': date.today(),
@@ -25,15 +34,10 @@ class Availability(ViewSet):
         if params['end_date'] is str:
             params['end_date'] = parse(params['end_date']).date()
 
-        records = []
+        items = []
 
         for record in _stf.availability(**params):
-            record.update({
-                'equipment_type_uri':
-                    EquipmentType.link(request, record['equipment_type_id']),
-                'date_available':
-                    record['date_available'].strftime('%Y-%m-%d'),
-            })
-            records.append(record)
+            item = self.item(request, record)
+            items.append(item)
 
-        return Response(records)
+        return Response(items)
