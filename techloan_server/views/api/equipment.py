@@ -8,23 +8,24 @@ logger = logging.getLogger(__name__)
 
 
 class Equipment(ViewSet):
-    @staticmethod
-    def link(request, pk):
+    @classmethod
+    def link(cls, request, pk):
         return reverse('equipment-detail',
                        kwargs={'pk': pk}, request=request)
 
-    def item(self, request, record):
+    @classmethod
+    def item(cls, request, record):
         from .equipment_type import EquipmentType
 
         if request.version == 'v1':
             record.update({
-                'uri': self.link(request, record['id']),
+                'uri': cls.link(request, record['id']),
                 'equipment_type_uri':
                     EquipmentType.link(request, record['equipment_type_id']),
             })
         else:
             record.update({'_links': {
-                'self': {'href': self.link(request, record['id'])},
+                'self': {'href': cls.link(request, record['id'])},
                 'type': {'href': EquipmentType.link(
                     request, record['equipment_type_id'])},
             }})

@@ -10,19 +10,20 @@ logger = logging.getLogger(__name__)
 
 
 class EquipmentLocation(ViewSet):
-    @staticmethod
-    def link(request, pk):
+    @classmethod
+    def link(cls, request, pk):
         return reverse('equipment-location-detail',
                        kwargs={'pk': pk}, request=request)
 
-    def item(self, request, record):
+    @classmethod
+    def item(cls, request, record):
         if request.version == 'v1':
             record.update({
-                'uri': self.link(request, record['id']),
+                'uri': cls.link(request, record['id']),
             })
         else:
             record.update({'_links': {
-                'self': {'href': self.link(request, record['id'])},
+                'self': {'href': cls.link(request, record['id'])},
             }})
         return record
 

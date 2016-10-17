@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 
 class Availability(ViewSet):
 
-    def item(self, request, record):
+    @classmethod
+    def item(cls, request, record):
         from .equipment_type import EquipmentType
 
         record.update({
