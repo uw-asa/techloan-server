@@ -38,6 +38,7 @@ class EquipmentLocation(ViewSet):
             'scope': 'basic',
         }
         params.update(request.GET.dict())
+        params['embed'] = request.GET.getlist('embed')
 
         if params['start_date'] is str:
             params['start_date'] = parse(params['start_date']).date()
@@ -50,16 +51,23 @@ class EquipmentLocation(ViewSet):
 
         for record in _stf.equipment_location(params['location_id']):
             item = self.item(request, record)
-            if params['scope'] == 'extended':
+            item['_embedded'] = {}
+
+            if request.version == 'v1' and params['scope'] == 'extended' or \
+                    'type' in params['embed']:
                 type_items = []
                 for type_record in _stf.equipment_type(
                         location_id=params['location_id']):
-                    type_item = EquipmentType.item(type_record)
+                    type_item = EquipmentType.item(request, type_record)
                     type_items.append(type_item)
-                item.update({
-                    'types': type_items,
-                })
+                if request.version == 'v1':
+                    item.update({'types': type_items})
+                else:
+                    item['_embedded'].update({'types': type_items})
             items.append(item)
+
+            if not len(item['_embedded']):
+                del item['_embedded']
 
         return Response(items)
 

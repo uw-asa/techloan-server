@@ -58,6 +58,7 @@ class EquipmentType(ViewSet):
             'scope': 'basic',
         }
         params.update(request.GET.dict())
+        params['embed'] = request.GET.getlist('embed')
 
         if params['start_date'] is str:
             params['start_date'] = parse(params['start_date']).date()
@@ -72,21 +73,35 @@ class EquipmentType(ViewSet):
                                           params['class_id'],
                                           params['location_id']):
             item = self.item(request, record)
-            if params['scope'] == 'extended':
+            item['_embedded'] = {}
+
+            if (request.version == 'v1' and params['scope'] == 'extended') or \
+                    'class' in params['embed']:
                 class_record = list(_stf.equipment_class(
                     record['equipment_class_id']))[0]
                 class_item = EquipmentClass.item(request, class_record)
+                if request.version == 'v1':
+                    item.update({'class': class_item})
+                else:
+                    item['_embedded'].update({'class': class_item})
 
+            if (request.version == 'v1' and params['scope'] == 'extended') or \
+                    'availability' in params['embed']:
                 availability_items = []
                 for a_record in _stf.availability(params['start_date'],
                                                   params['end_date'],
                                                   record['id']):
                     availability_item = Availability.item(request, a_record)
                     availability_items.append(availability_item)
-                item.update({
-                    'class': class_item,
-                    'availability': availability_items,
-                })
+                if request.version == 'v1':
+                    item.update({'availability': availability_items})
+                else:
+                    item['_embedded'].update(
+                        {'availability': availability_items})
+
+            if not len(item['_embedded']):
+                del item['_embedded']
+
             items.append(item)
 
         return Response(items)
