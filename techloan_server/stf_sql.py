@@ -67,6 +67,7 @@ class STFSQL(object):
             yield {
                 'id': row["id"],
                 'name': row["description"],
+                'category': row["category"],
                 'last_modified': row["modify_time"],
             }
 
@@ -131,6 +132,7 @@ class STFSQL(object):
                 'image_url': row["image_url"],
                 'manual_url': row["manual_url"],
                 'last_modified': row["modify_time"],
+                'stf_funded': row["stf_funded"],
                 'num_active': row["num_active"],
             }
 
