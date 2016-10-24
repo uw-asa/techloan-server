@@ -14,7 +14,7 @@ class Availability(ViewSet):
     @classmethod
     def search_link(cls, request, **kwargs):
         return reverse('availability-list', request=request) + \
-               "?%s" % urlencode(kwargs)
+               "?%s" % urlencode(kwargs, True)
 
     @classmethod
     def item(cls, request, record):

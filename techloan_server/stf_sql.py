@@ -22,11 +22,19 @@ class STFSQL(object):
         self._conn.close()
 
     def availability(self, start_date, end_date, type_id=None):
+        """Return data from the availability cache
+
+        type_id is optional, can be an int or a list of ints
+        """
+
         cursor = self._conn.cursor(as_dict=True)
+
+        if isinstance(type_id, str) or not hasattr(type_id, '__iter__'):
+            type_id = [type_id]
         if type_id:
             cursor.execute(
                 "SELECT * FROM availability"
-                " WHERE equipment_type_id = %(type_id)d"
+                " WHERE equipment_type_id IN %(type_id)d"
                 "   AND date_available BETWEEN %(start_date)s"
                 "                          AND %(end_date)s", {
                     "type_id": type_id,
