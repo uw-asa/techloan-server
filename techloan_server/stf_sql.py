@@ -38,16 +38,16 @@ class STFSQL(object):
                 "   AND date_available BETWEEN %(start_date)s"
                 "                          AND %(end_date)s", {
                     "type_id": type_id,
-                    "start_date": start_date.strftime('%Y%m%d'),
-                    "end_date": end_date.strftime('%Y%m%d'),
+                    "start_date": start_date,
+                    "end_date": end_date,
                 })
         else:
             cursor.execute(
                 "SELECT * FROM availability"
                 " WHERE date_available BETWEEN %(start_date)s"
                 "                          AND %(end_date)s", {
-                    "start_date": start_date.strftime('%Y%m%d'),
-                    "end_date": end_date.strftime('%Y%m%d'),
+                    "start_date": start_date,
+                    "end_date": end_date,
                 })
 
         rows = cursor.fetchall()
