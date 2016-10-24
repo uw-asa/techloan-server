@@ -43,8 +43,7 @@ class Availability(ViewSet):
             'start_date': date.today(),
             'end_date': date.today() + timedelta(weeks=2),
         }
-        params.update(request.GET.dict())
-        params['type_id'] = [int(x) for x in request.GET.getlist('type_id')]
+        params.update(request.GET)
 
         if params['start_date'] is str:
             params['start_date'] = parse(params['start_date']).date()

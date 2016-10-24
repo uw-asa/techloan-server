@@ -30,7 +30,7 @@ class CustomerType(ViewSet):
         params = {
             'customer_type_id': kwargs.get('customer_type_id'),
         }
-        params.update(request.GET.dict())
+        params.update(request.GET)
 
         items = []
 

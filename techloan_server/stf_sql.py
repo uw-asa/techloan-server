@@ -29,8 +29,11 @@ class STFSQL(object):
 
         cursor = self._conn.cursor(as_dict=True)
 
-        if isinstance(type_id, str) or not hasattr(type_id, '__iter__'):
+        if type_id is not None and (
+                    isinstance(type_id, str) or
+                    not hasattr(type_id, '__iter__')):
             type_id = [type_id]
+
         if type_id:
             cursor.execute(
                 "SELECT * FROM availability"
@@ -61,11 +64,22 @@ class STFSQL(object):
             }
 
     def equipment_class(self, class_id=None):
+        """Return data from equipment classes
+
+        class_id is optional, can be an int or a list of ints
+        """
+
         cursor = self._conn.cursor(as_dict=True)
+
+        if class_id is not None and (
+                    isinstance(class_id, str) or
+                    not hasattr(class_id, '__iter__')):
+            class_id = [class_id]
+
         if class_id:
             cursor.execute(
                 "SELECT * FROM equipment_classes"
-                " WHERE id = %(class_id)d",
+                " WHERE id IN %(class_id)d",
                 {"class_id": class_id})
         else:
             cursor.execute(
@@ -83,11 +97,22 @@ class STFSQL(object):
             }
 
     def equipment_location(self, location_id=None):
+        """Return data from equipment locations
+
+        location_id is optional, can be an int or a list of ints
+        """
+
         cursor = self._conn.cursor(as_dict=True)
+
+        if location_id is not None and (
+                    isinstance(location_id, str) or
+                    not hasattr(location_id, '__iter__')):
+            location_id = [location_id]
+
         if location_id:
             cursor.execute(
                 "SELECT * FROM equipment_locations"
-                " WHERE id = %(location_id)d",
+                " WHERE id IN %(location_id)d",
                 {"location_id": location_id})
         else:
             cursor.execute(
@@ -105,27 +130,50 @@ class STFSQL(object):
             }
 
     def equipment_type(self, type_id=None, class_id=None, location_id=None):
+        """Return data from equipment types
+
+        type_id is optional, can be an int or a list of ints
+        class_id is optional, can be an int or a list of ints
+        location_id is optional, can be an int or a list of ints
+        """
+
         cursor = self._conn.cursor(as_dict=True)
+
+        if type_id is not None and (
+                    isinstance(type_id, str) or
+                    not hasattr(type_id, '__iter__')):
+            type_id = [type_id]
+
+        if class_id is not None and (
+                    isinstance(class_id, str) or
+                    not hasattr(class_id, '__iter__')):
+            class_id = [class_id]
+
+        if location_id is not None and (
+                    isinstance(location_id, str) or
+                    not hasattr(location_id, '__iter__')):
+            location_id = [location_id]
+
         if type_id:
             cursor.execute(
                 "SELECT * FROM active_equipment_types"
-                " WHERE id = %(type_id)d",
+                " WHERE id IN %(type_id)d",
                 {"type_id": type_id})
         elif class_id and location_id:
             cursor.execute(
                 "SELECT * FROM active_equipment_types"
-                " WHERE equipment_class_id = %(class_id)d"
-                "  AND equipment_location_id = %(location_id)d",
+                " WHERE equipment_class_id IN %(class_id)d"
+                "  AND equipment_location_id IN %(location_id)d",
                 {"class_id": class_id, "location_id": location_id})
         elif class_id:
             cursor.execute(
                 "SELECT * FROM active_equipment_types"
-                " WHERE equipment_class_id = %(class_id)d",
+                " WHERE equipment_class_id IN %(class_id)d",
                 {"class_id": class_id})
         elif location_id:
             cursor.execute(
                 "SELECT * FROM active_equipment_types"
-                " WHERE equipment_location_id = %(location_id)d",
+                " WHERE equipment_location_id IN %(location_id)d",
                 {"location_id": location_id})
         else:
             cursor.execute(
@@ -152,16 +200,34 @@ class STFSQL(object):
             }
 
     def equipment(self, equipment_id=None, type_id=None):
+        """Return data from equipment
+
+        equipment_id is optional, can be an int or a list of ints
+        type_id is optional, can be an int or a list of ints
+        """
+
         cursor = self._conn.cursor(as_dict=True)
+
+        if equipment_id is not None and (
+                    isinstance(equipment_id, str) or
+                    not hasattr(equipment_id, '__iter__')):
+            equipment_id = [equipment_id]
+
+        if type_id is not None and (
+                    isinstance(type_id, str) or
+                    not hasattr(type_id, '__iter__')):
+            type_id = [type_id]
+
         if equipment_id:
             cursor.execute(
                 "SELECT * FROM equipment"
-                " WHERE id = %(equipment_id)d",
+                " WHERE id IN %(equipment_id)d",
                 {"equipment_id": equipment_id})
         elif type_id:
             cursor.execute(
                 "SELECT * FROM equipment"
-                " WHERE status = 'active' AND equipment_type_id = %(type_id)d",
+                " WHERE status = 'active'"
+                "   AND equipment_type_id IN %(type_id)d",
                 {"type_id": type_id})
         else:
             cursor.execute(
@@ -178,11 +244,22 @@ class STFSQL(object):
             }
 
     def customer_type(self, customer_type_id=None):
+        """Return data from customer_types
+
+        customer_type_id is optional, can be an int or a list of ints
+        """
+
         cursor = self._conn.cursor(as_dict=True)
+
+        if customer_type_id is not None and (
+                    isinstance(customer_type_id, str) or
+                    not hasattr(customer_type_id, '__iter__')):
+            customer_type_id = [customer_type_id]
+
         if customer_type_id:
             cursor.execute(
                 "SELECT * FROM customer_types"
-                " WHERE id = %(customer_type_id)d",
+                " WHERE id IN %(customer_type_id)d",
                 {"customer_type_id": customer_type_id})
         else:
             cursor.execute(

@@ -56,9 +56,9 @@ class EquipmentType(ViewSet):
             'start_date': date.today(),
             'end_date': date.today(),
             'scope': 'basic',
+            'embed': [],
         }
-        params.update(request.GET.dict())
-        params['embed'] = request.GET.getlist('embed')
+        params.update(request.GET)
 
         if params['start_date'] is str:
             params['start_date'] = parse(params['start_date']).date()
