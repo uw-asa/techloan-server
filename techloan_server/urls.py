@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
 from .views.api.availability import Availability
 from .views.api.equipment_class import EquipmentClass
@@ -16,8 +16,6 @@ router.register(r'equipment', Equipment, base_name='equipment')
 router.register(r'availability', Availability, base_name='availability')
 router.register(r'customer_type', CustomerType, base_name='customer-type')
 
-urlpatterns = patterns(
-    '',
-
+urlpatterns = [
     url(r'^api/(?P<version>(v1|v2))/', include(router.urls)),
-)
+]
