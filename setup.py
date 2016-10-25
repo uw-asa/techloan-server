@@ -5,6 +5,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'Django',
+        'djangorestframework>=3.4.0',
         'pymssql',
     ],
 )

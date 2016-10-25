@@ -1,7 +1,10 @@
 language: python
+env:
+  - PIP_PKGS="Django"
+  - PIP_PKGS="Django==1.8"
 install:
   - sudo apt-get install -y freetds-dev
-  - pip install -e .
+  - pip install $PIP_PKGS -e .
 before_script:
   - django-admin startproject travis .
 script:
