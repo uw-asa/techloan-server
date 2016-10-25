@@ -1,0 +1,7 @@
+language: python
+install:
+  - pip install -e .
+before_script:
+  - django-admin startproject travis .
+script:
+  - python manage.py test
