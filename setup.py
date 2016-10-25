@@ -7,5 +7,6 @@ setup(
         'Django',
         'djangorestframework>=3.4.0',
         'pymssql',
+        'python-dateutil',
     ],
 )
