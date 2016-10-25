@@ -40,5 +40,5 @@ class CustomerType(ViewSet):
 
         return Response(items)
 
-    def retrieve(self, request, pk):
+    def retrieve(self, request, pk, **kwargs):
         return self.list(request, customer_type_id=pk)
