@@ -30,7 +30,7 @@ class Availability(TechloanViewSet):
 
         return record
 
-    def list(self, request, **kwargs):
+    def items(self, request, **kwargs):
         _stf = STFSQL()
         params = {
             'start_date': date.today(),
@@ -57,4 +57,4 @@ class Availability(TechloanViewSet):
             '_embedded': {'availability': availability_items},
         }
 
-        return Response(search)
+        return search

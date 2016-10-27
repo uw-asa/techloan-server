@@ -22,18 +22,3 @@ class EquipmentClass(TechloanViewSet):
                     request, class_id=record['id'])},
             }})
         return record
-
-    def list(self, request, **kwargs):
-        _stf = STFSQL()
-        params = {
-            'class_id': kwargs.get('class_id'),
-        }
-        params.update(request.GET)
-
-        items = []
-
-        for record in _stf.equipment_class(**params):
-            item = self.item(request, record)
-            items.append(item)
-
-        return Response(items)

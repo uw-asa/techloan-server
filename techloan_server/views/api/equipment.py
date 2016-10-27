@@ -25,7 +25,7 @@ class Equipment(TechloanViewSet):
             }})
         return record
 
-    def list(self, request, **kwargs):
+    def items(self, request, **kwargs):
         _stf = STFSQL()
         params = {
             'equipment_id': kwargs.get('equipment_id'),
@@ -38,4 +38,4 @@ class Equipment(TechloanViewSet):
         for record in _stf.equipment(**params):
             items.append(self.item(request, record))
 
-        return Response(items)
+        return items

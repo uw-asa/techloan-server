@@ -25,7 +25,7 @@ class EquipmentLocation(TechloanViewSet):
             }})
         return record
 
-    def list(self, request, **kwargs):
+    def items(self, request, **kwargs):
         from .equipment_type import EquipmentType
 
         _stf = STFSQL()
@@ -67,4 +67,4 @@ class EquipmentLocation(TechloanViewSet):
             if not len(item['_embedded']):
                 del item['_embedded']
 
-        return Response(items)
+        return items

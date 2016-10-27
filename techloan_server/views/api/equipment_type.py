@@ -44,7 +44,7 @@ class EquipmentType(TechloanViewSet):
             }})
         return record
 
-    def list(self, request, **kwargs):
+    def items(self, request, **kwargs):
         from .equipment_class import EquipmentClass
         from .availability import Availability
 
@@ -104,4 +104,4 @@ class EquipmentType(TechloanViewSet):
 
             items.append(item)
 
-        return Response(items)
+        return items

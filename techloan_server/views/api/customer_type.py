@@ -18,18 +18,3 @@ class CustomerType(TechloanViewSet):
                 'self': {'href': cls.link(request, record['id'])},
             }})
         return record
-
-    def list(self, request, **kwargs):
-        _stf = STFSQL()
-        params = {
-            'customer_type_id': kwargs.get('customer_type_id'),
-        }
-        params.update(request.GET)
-
-        items = []
-
-        for record in _stf.customer_type(params['customer_type_id']):
-            item = self.item(request, record)
-            items.append(item)
-
-        return Response(items)

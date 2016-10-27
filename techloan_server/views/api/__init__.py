@@ -28,10 +28,15 @@ class TechloanViewSet(ViewSet):
         return name
 
     @classmethod
-    def pk_name(cls):
+    def sql_name(cls):
         name = get_view_name(cls)
         name = name.lower()
         name = name.replace(' ', '_')
+        return name
+
+    @classmethod
+    def pk_name(cls):
+        name = cls.sql_name()
         name = remove_leading_string(name, 'equipment_')
         return "%s_id" % name
 
@@ -48,3 +53,22 @@ class TechloanViewSet(ViewSet):
     def retrieve(self, request, pk, **kwargs):
         params = {self.pk_name(): pk}
         return self.list(request, **params)
+
+    def items(self, request, **kwargs):
+        _stf = STFSQL()
+        params = {
+            self.pk_name(): kwargs.get(self.pk_name()),
+        }
+        params.update(request.GET)
+
+        items = []
+
+        sql_method = getattr(_stf, self.sql_name())
+        for record in sql_method(params[self.pk_name()]):
+            item = self.item(request, record)
+            items.append(item)
+
+        return items
+
+    def list(self, request, **kwargs):
+        return Response(self.items(request, **kwargs))
