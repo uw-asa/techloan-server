@@ -45,12 +45,6 @@ class TechloanViewSet(ViewSet):
         return reverse('%s-detail' % cls.base_name(),
                        kwargs={'pk': pk}, request=request)
 
-    @classmethod
-    def links(cls, request, record):
-        return {
-            'self': {'href': cls.link(request, record['id'])},
-        }
-
     def retrieve(self, request, pk, **kwargs):
         params = {self.pk_name(): pk}
         return self.list(request, **params)
