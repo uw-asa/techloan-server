@@ -1,18 +1,12 @@
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
-from rest_framework.viewsets import ViewSet
 from techloan_server.stf_sql import STFSQL
+from . import TechloanViewSet
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class Equipment(ViewSet):
-    @classmethod
-    def link(cls, request, pk):
-        return reverse('equipment-detail',
-                       kwargs={'pk': pk}, request=request)
-
+class Equipment(TechloanViewSet):
     @classmethod
     def item(cls, request, record):
         from .equipment_type import EquipmentType
@@ -45,6 +39,3 @@ class Equipment(ViewSet):
             items.append(self.item(request, record))
 
         return Response(items)
-
-    def retrieve(self, request, pk, **kwargs):
-        return self.list(request, equipment_id=pk)

@@ -1,21 +1,14 @@
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
-from rest_framework.viewsets import ViewSet
 from datetime import date, timedelta
 from dateutil.parser import parse
-from urllib import urlencode
 from techloan_server.stf_sql import STFSQL
+from . import TechloanViewSet
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class Availability(ViewSet):
-    @classmethod
-    def search_link(cls, request, **kwargs):
-        return reverse('availability-list', request=request) + \
-               "?%s" % urlencode(kwargs, True)
-
+class Availability(TechloanViewSet):
     @classmethod
     def item(cls, request, record):
         from .equipment_type import EquipmentType

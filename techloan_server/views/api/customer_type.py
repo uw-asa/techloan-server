@@ -1,18 +1,12 @@
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
-from rest_framework.viewsets import ViewSet
 from techloan_server.stf_sql import STFSQL
+from . import TechloanViewSet
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class CustomerType(ViewSet):
-    @classmethod
-    def link(cls, request, pk):
-        return reverse('customer-type-detail',
-                       kwargs={'pk': pk}, request=request)
-
+class CustomerType(TechloanViewSet):
     @classmethod
     def item(cls, request, record):
         if request.version == 'v1':
@@ -39,6 +33,3 @@ class CustomerType(ViewSet):
             items.append(item)
 
         return Response(items)
-
-    def retrieve(self, request, pk, **kwargs):
-        return self.list(request, customer_type_id=pk)

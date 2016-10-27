@@ -1,20 +1,14 @@
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
-from rest_framework.viewsets import ViewSet
 from datetime import date
 from dateutil.parser import parse
 from techloan_server.stf_sql import STFSQL
+from . import TechloanViewSet
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class EquipmentLocation(ViewSet):
-    @classmethod
-    def link(cls, request, pk):
-        return reverse('equipment-location-detail',
-                       kwargs={'pk': pk}, request=request)
-
+class EquipmentLocation(TechloanViewSet):
     @classmethod
     def item(cls, request, record):
         if request.version == 'v1':
@@ -70,6 +64,3 @@ class EquipmentLocation(ViewSet):
                 del item['_embedded']
 
         return Response(items)
-
-    def retrieve(self, request, pk, **kwargs):
-        return self.list(request, location_id=pk)
