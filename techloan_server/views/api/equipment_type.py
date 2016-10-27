@@ -14,6 +14,8 @@ class EquipmentType(TechloanViewSet):
         from .equipment_class import EquipmentClass
         from .equipment_location import EquipmentLocation
         from .customer_type import CustomerType
+        from .availability import Availability
+        from .equipment import Equipment
 
         if request.version == 'v1':
             record.update({
@@ -35,6 +37,10 @@ class EquipmentType(TechloanViewSet):
                     request, record['equipment_location_id'])},
                 'customer_type': {'href': CustomerType.link(
                     request, record['customer_type_id'])},
+                'availability': {'href': Availability.search_link(
+                    request, type_id=record['id'])},
+                'equipment': {'href': Equipment.search_link(
+                    request, type_id=record['id'])},
             }})
         return record
 
