@@ -52,9 +52,4 @@ class Availability(TechloanViewSet):
         if request.version == 'v1':
             return Response(availability_items)
 
-        search = {
-            '_links': {'self': {'href': self.search_link(request, **params)}},
-            '_embedded': {'availability': availability_items},
-        }
-
-        return search
+        return availability_items
