@@ -1,4 +1,3 @@
-from rest_framework.response import Response
 from datetime import date
 from dateutil.parser import parse
 from techloan_server.stf_sql import STFSQL

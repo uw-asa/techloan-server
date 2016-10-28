@@ -1,4 +1,3 @@
-from rest_framework.response import Response
 from techloan_server.stf_sql import STFSQL
 from . import TechloanViewSet
 import logging
