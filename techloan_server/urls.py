@@ -8,7 +8,7 @@ from .views.api.equipment import Equipment
 from .views.api.customer_type import CustomerType
 
 
-router = DefaultRouter(schema_title='Tech Loan API')
+router = DefaultRouter()
 router.register(r'class', EquipmentClass, base_name='equipment-class')
 router.register(r'location', EquipmentLocation, base_name='equipment-location')
 router.register(r'type', EquipmentType, base_name='equipment-type')
