@@ -52,7 +52,7 @@ class TechloanViewSet(ViewSet):
 
     def retrieve(self, request, pk, **kwargs):
         params = {self.pk_name(): pk}
-        return self.list(request, **params)
+        return Response(self.items(request, **params)[0])
 
     def items(self, request, **kwargs):
         _stf = STFSQL()
