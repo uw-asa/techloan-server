@@ -92,6 +92,8 @@ class EquipmentType(TechloanViewSet):
                                                   record['id']):
                     availability_item = Availability.item(request, a_record)
                     availability_items.append(availability_item)
+                if not len(availability_items):
+                    availability_items.append({'num_available': 0})
                 if request.version == 'v1':
                     item.update({'availability': availability_items})
                 else:
