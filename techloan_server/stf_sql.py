@@ -190,7 +190,7 @@ class STFSQL(object):
                 'make': row["make"],
                 'model': row["model"],
                 'check_out_days': row["check_out_days"],
-                'customer_type_id': row["customer_type_id"],
+                'reservable': row["reservable"],
                 'description': row["description"],
                 'image_url': row["image_url"],
                 'manual_url': row["manual_url"],

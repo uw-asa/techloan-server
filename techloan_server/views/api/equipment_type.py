@@ -12,7 +12,6 @@ class EquipmentType(TechloanViewSet):
     def item(cls, request, record):
         from .equipment_class import EquipmentClass
         from .equipment_location import EquipmentLocation
-        from .customer_type import CustomerType
         from .availability import Availability
         from .equipment import Equipment
 
@@ -24,18 +23,18 @@ class EquipmentType(TechloanViewSet):
                 'equipment_location_uri':
                     EquipmentLocation.link(request,
                                            record['equipment_location_id']),
-                'customer_type_uri':
-                    CustomerType.link(request, record['customer_type_id']),
             })
         else:
+            # temporary compatibility kludge
+            record.update({
+                'customer_type_id': 4 if record['reservable'] else 0,
+            })
             record.update({'_links': {
                 'self': {'href': cls.link(request, record['id'])},
                 'class': {'href': EquipmentClass.link(
                     request, record['equipment_class_id'])},
                 'location': {'href': EquipmentLocation.link(
                     request, record['equipment_location_id'])},
-                'customer_type': {'href': CustomerType.link(
-                    request, record['customer_type_id'])},
                 'availability': {'href': Availability.search_link(
                     request, type_id=record['id'])},
                 'equipment': {'href': Equipment.search_link(
