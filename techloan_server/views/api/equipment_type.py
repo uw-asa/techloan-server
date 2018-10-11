@@ -1,8 +1,10 @@
+import logging
 from datetime import date
+
 from dateutil.parser import parse
 from techloan_server.stf_sql import STFSQL
+
 from . import TechloanViewSet
-import logging
 
 logger = logging.getLogger(__name__)
 

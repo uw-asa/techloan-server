@@ -1,12 +1,12 @@
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
+
 from .views.api.availability import Availability
+from .views.api.customer_type import CustomerType
+from .views.api.equipment import Equipment
 from .views.api.equipment_class import EquipmentClass
 from .views.api.equipment_location import EquipmentLocation
 from .views.api.equipment_type import EquipmentType
-from .views.api.equipment import Equipment
-from .views.api.customer_type import CustomerType
-
 
 router = DefaultRouter()
 router.register(r'class', EquipmentClass, base_name='equipment-class')

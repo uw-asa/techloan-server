@@ -1,6 +1,8 @@
-from techloan_server.stf_sql import STFSQL
-from . import TechloanViewSet
 import logging
+
+from techloan_server.stf_sql import STFSQL
+
+from . import TechloanViewSet
 
 logger = logging.getLogger(__name__)
 

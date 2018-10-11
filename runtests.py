@@ -1,8 +1,8 @@
 import sys
+
 import django
 from django.conf import settings
 from django.test.utils import get_runner
-
 
 settings.configure(
     INSTALLED_APPS=('techloan_server',),

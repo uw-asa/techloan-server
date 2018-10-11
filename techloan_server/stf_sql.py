@@ -1,9 +1,10 @@
 """
 Module to support direct communication to the STF SQL database
 """
-from django.conf import settings
 from logging import getLogger
+
 import pymssql
+from django.conf import settings
 
 
 class STFSQL(object):

@@ -1,5 +1,6 @@
-from . import TechloanViewSet
 import logging
+
+from . import TechloanViewSet
 
 logger = logging.getLogger(__name__)
 
