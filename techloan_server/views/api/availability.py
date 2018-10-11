@@ -49,7 +49,4 @@ class Availability(TechloanViewSet):
             availability_item = self.item(request, record)
             availability_items.append(availability_item)
 
-        if request.version == 'v1':
-            return Response(availability_items)
-
         return availability_items
