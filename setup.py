@@ -7,7 +7,7 @@ setup(
     install_requires=[
         'coreapi',
         'Django',
-        'djangorestframework>=3.4.0',
+        'djangorestframework>=3.4.0,<3.9.0',
         'pymssql',
         'python-dateutil',
     ],
