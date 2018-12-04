@@ -17,7 +17,8 @@ class STFSQL(object):
             settings.STF_SQL_SERVER,
             settings.STF_SQL_USERNAME,
             settings.STF_SQL_PASSWORD,
-            getattr(settings, 'STF_SQL_DATABASE', 'stfequip'))
+            getattr(settings, 'STF_SQL_DATABASE', 'stfequip'),
+            charset="ISO-8859-1")
 
     def __del__(self):
         self._conn.close()
