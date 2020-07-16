@@ -1,6 +1,6 @@
 language: python
 env:
-  - PIP_PKGS="Django"
+  - PIP_PKGS="Django<3.0"
   - PIP_PKGS="Django<2.0"
 install:
   - sudo apt-get install -y freetds-dev
