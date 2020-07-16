@@ -1,5 +1,5 @@
 import logging
-from urllib import urlencode
+from urllib.parse import urlencode
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.viewsets import ViewSet
