@@ -8,7 +8,7 @@ setup(
         'coreapi',
         'Django',
         'djangorestframework>=3.4.0,<3.9.0',
-        'pymssql',
+        'pyodbc',
         'python-dateutil',
     ],
 )
