@@ -57,7 +57,7 @@ class STFSQL(object):
 
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
-        col = {k:v for k,v in zip(columns, range(len(columns)))}
+        col = {k: v for k, v in zip(columns, range(len(columns)))}
         cursor.close()
         for row in rows:
             yield {
@@ -92,7 +92,7 @@ class STFSQL(object):
 
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
-        col = {k:v for k,v in zip(columns, range(len(columns)))}
+        col = {k: v for k, v in zip(columns, range(len(columns)))}
         cursor.close()
         for row in rows:
             yield {
@@ -127,7 +127,7 @@ class STFSQL(object):
 
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
-        col = {k:v for k,v in zip(columns, range(len(columns)))}
+        col = {k: v for k, v in zip(columns, range(len(columns)))}
         cursor.close()
         for row in rows:
             yield {
@@ -190,7 +190,7 @@ class STFSQL(object):
 
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
-        col = {k:v for k,v in zip(columns, range(len(columns)))}
+        col = {k: v for k, v in zip(columns, range(len(columns)))}
         cursor.close()
         for row in rows:
             yield {
@@ -247,7 +247,7 @@ class STFSQL(object):
 
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
-        col = {k:v for k,v in zip(columns, range(len(columns)))}
+        col = {k: v for k, v in zip(columns, range(len(columns)))}
         cursor.close()
         for row in rows:
             yield {
@@ -280,7 +280,7 @@ class STFSQL(object):
 
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
-        col = {k:v for k,v in zip(columns, range(len(columns)))}
+        col = {k: v for k, v in zip(columns, range(len(columns)))}
         cursor.close()
         for row in rows:
             yield {
