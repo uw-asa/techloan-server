@@ -3,7 +3,7 @@ env:
   - PIP_PKGS="Django<3.0"
   - PIP_PKGS="Django<2.0"
 install:
-  - sudo apt-get install -y freetds-dev
+  - sudo apt-get install -y freetds-dev unixodbc-dev
   - pip install pycodestyle $PIP_PKGS -e .
 script:
   - pycodestyle techloan_server
